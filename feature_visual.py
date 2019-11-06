@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
 
-data = pd.read_csv('feature_record.csv',header=None)
+data = pd.read_csv('feature_record_hgnn.csv',header=None)
 for i in range(data.shape[0]):
     X_ls = []
     if data.iloc[i,0] == 'label':
@@ -26,9 +26,11 @@ for i in range(data.shape[0]):
                 X_ls.append(np.fromstring(x.replace('[', '').replace(']', '').replace('\n', ' '), sep=' '))
         X_np = np.stack(X_ls,axis=0)
         prep_value = int(label.shape[0]/5)-1 # trand -1 / non -0
-        X_embedded = TSNE(n_components=2,perplexity=prep_value).fit_transform(X_np)
+        X_embedded = TSNE(n_components=2,perplexity=5).fit_transform(X_np)
         plt.figure(i)
-        plt.scatter(X_embedded[:,0], X_embedded[:,1], c=label)
+        p1 = plt.scatter(X_embedded[:-5,0], X_embedded[:-5,1], c=label[:-5])
+        p2 = plt.scatter(X_embedded[-5:,0],X_embedded[-5:,1],c=label[-5:],marker='*')
+        plt.legend((p1, p2), ('support','query'))
         plt.title(visual_name)
         plt.xlabel('x')
         plt.ylabel('y')
