@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
 
-data = pd.read_csv('feature_record_egnn.csv',header=None)
+data = pd.read_csv('feature_record_gnn.csv',header=None)
 for i in range(data.shape[0]):
     X_ls = []
     if data.iloc[i,0] == 'label':
@@ -33,5 +33,6 @@ for i in range(data.shape[0]):
         xmin, xmax, ymin, ymax = plt.axis()
         plt.legend((p1, p2), ('support','query'))
         plt.axis([1.5*xmin, 1.5*xmax, 1.5*ymin, 1.5*ymax])
+        plt.savefig(visual_name+'.png')
 plt.show()
 
